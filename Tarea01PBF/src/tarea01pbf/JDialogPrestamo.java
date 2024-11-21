@@ -512,8 +512,11 @@ public class JDialogPrestamo extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
     
     private void jButtonGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonGuardarActionPerformed
+        
+        //Instaciamos un objeto de la clase Map y almacenamos ahí la recogida de datos.
         Map<String, Object> datos = recogerDatos();
         
+        //Pintamos en la terminal los datos que obtenemos.
         System.out.println("------------------------------------");
         System.out.println("---------RESERVA CONFIRMADA---------");
         System.out.println("Nombre y Apellidos: " + datos.get("nombreApellidos"));
@@ -526,25 +529,24 @@ public class JDialogPrestamo extends javax.swing.JDialog {
         System.out.println("Editorial: " + datos.get("eleccionEditorial"));
         System.out.println("Encuadernacion: " + datos.get("eleccionEncuadernacion"));
         
-        int contadorAdded = 0;
+        //Bucle foreach para mostrar todas las materias que se hayan añadido.
         System.out.print("Materias: ");
-        List<String> materias = (List<String>) datos.get("materias"); // Obtener materias como lista
+        List<String> materias = (List<String>) datos.get("materias");
         if (materias != null && !materias.isEmpty()) {
             for (String materia : materias) {
                 System.out.println(materia);
-                contadorAdded++;
             }
         } else {
             System.out.println("Ninguna materia seleccionada");
         }
-
-        System.out.println("\nNúmero de materias seleccionadas: " + contadorAdded);
+        
+        //Mostrar las fechas
         System.out.println("Fecha del préstamo: " + datos.get("fechaPrestamo"));
         System.out.println("Fecha de devolución: " + datos.get("fechaDevolucion"));
         System.out.println("------------------------------------");
         
         
-        //Mostrar mensaje si se han guardado o no todos los datos
+        //Comprobación de si 
         if (datos.get("nombreApellidos") == null || datos.get("nombreApellidos").toString().trim().isEmpty() ||
         datos.get("email") == null || datos.get("email").toString().trim().isEmpty() ||
         datos.get("dni") == null || datos.get("dni").toString().trim().isEmpty() ||
@@ -559,7 +561,7 @@ public class JDialogPrestamo extends javax.swing.JDialog {
         // Mostrar mensaje de advertencia
         JOptionPane.showMessageDialog(
                 this, 
-                "Por favor, complete todos los campos requeridos antes de guardar.", 
+                "DEBES COMPLETAR TODOS LOS CAMPOS", 
                 "Datos incompletos", 
                 JOptionPane.WARNING_MESSAGE
         );
@@ -567,14 +569,16 @@ public class JDialogPrestamo extends javax.swing.JDialog {
             // Mostrar mensaje de registro guardado
             JOptionPane.showMessageDialog(
                     this, 
-                    "Registro guardado correctamente.", 
-                    "Éxito", 
+                    "REGISTRO GUARDADO CORRECTAMENTE.", 
+                    "Éxitazo", 
                     JOptionPane.INFORMATION_MESSAGE
             );
         }
     }//GEN-LAST:event_jButtonGuardarActionPerformed
 
     private void jComboBoxEditorialesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBoxEditorialesActionPerformed
+        
+        //Este método sirve para poder cambiar y habilitar correctamente el tipo de encuadernación
         String eleccionEditorial = String.valueOf(jComboBoxEditoriales.getSelectedItem());
         String eleccionEncuadernacion = "Por defecto";
         
@@ -597,11 +601,13 @@ public class JDialogPrestamo extends javax.swing.JDialog {
     }//GEN-LAST:event_jComboBoxEditorialesActionPerformed
 
     private void jButtonSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonSalirActionPerformed
+        
+        //Este método comprueba que, si al salir del formulario, hay algún campo incompleto o no para mostrar su mensaje consecuente.
         Map<String, Object> datosIntroducidos = recogerDatos();
         
         boolean hayDatos = false;
 
-        // Verificar campos del cliente directamente
+        // Verificar campos del cliente directamente para ver si alguno está vacío
         if (datosIntroducidos.get("nombreApellidos") != null && 
             !datosIntroducidos.get("nombreApellidos").toString().trim().isEmpty()) {
             hayDatos = true;
@@ -618,7 +624,7 @@ public class JDialogPrestamo extends javax.swing.JDialog {
             hayDatos = true;
         }
 
-        // Si hay datos introducidos, confirmar la salida
+        // Si hay datos introducidos, se confirma la salida
         if (hayDatos) {
             int confirmacion = JOptionPane.showConfirmDialog(
                     this,
@@ -638,8 +644,11 @@ public class JDialogPrestamo extends javax.swing.JDialog {
     }//GEN-LAST:event_jButtonSalirActionPerformed
 
     public Map<String, Object> recogerDatos() {
+        
+        //Creamos un objeto de la clase Map
         Map<String, Object> datosFormulario = new HashMap<>();
-
+        
+        //En la primera parte del Map guardamos el nombre de la variable y, en la siguiente, el texto introducido por el usuario
         datosFormulario.put("nombreApellidos", jTextFieldNomApell.getText());
         datosFormulario.put("email", jPanelPersonalizado2.getEmailText());
         datosFormulario.put("dni", jTextFieldDNI.getText());
@@ -667,7 +676,8 @@ public class JDialogPrestamo extends javax.swing.JDialog {
             eleccionEncuadernacion = "Por defecto";
         }
         datosFormulario.put("eleccionEncuadernacion", eleccionEncuadernacion);
-
+        
+        //Creo esta lista en la que voy añadiendo una materia siemper que esté seleccionada.
         List<String> materias = new ArrayList<>();
         if (jCheckBoxTab11.isSelected()) materias.add(jCheckBoxTab11.getText());
         if (jCheckBoxTab12.isSelected()) materias.add(jCheckBoxTab12.getText());
